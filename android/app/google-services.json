@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "90644344287",
+    "firebase_url": "https://healthdiary-bf47e.firebaseio.com",
+    "project_id": "healthdiary-bf47e",
+    "storage_bucket": "healthdiary-bf47e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:90644344287:android:e11da03d1f07254eb2e86a",
+        "android_client_info": {
+          "package_name": "br.com.healthdiary.healthdiary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "90644344287-bpddbar2rcjbou9oaoep1u1tc7jtadr5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKq0QOQ2g10ZwgdYzeK9WST9v20ikDlyc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "90644344287-bpddbar2rcjbou9oaoep1u1tc7jtadr5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "90644344287-ejd1k9k8sgb2vve47u8vt61f6qr00out.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "br.com.healthdiary.healthdiary"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
