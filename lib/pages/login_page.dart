@@ -88,6 +88,20 @@ class _LoginPageState extends State<LoginPage> {
                             stream: _loginBloc.outPassword,
                             onChanged: _loginBloc.changePassword,
                           ),
+                          Container(
+                            child: new DropdownButton<String>(
+                              icon: Icon(Icons.mode_edit),
+                              hint: Text("Tipo"),
+                              items: <String>['Cliente', 'Nutricionista']
+                                  .map((String value) {
+                                return new DropdownMenuItem<String>(
+                                  value: value,
+                                  child: new Text(value),
+                                );
+                              }).toList(),
+                              onChanged: _loginBloc.changeUser,
+                            ),
+                          ),
                           SizedBox(
                             height: 32,
                           ),
