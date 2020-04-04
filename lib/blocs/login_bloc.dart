@@ -30,6 +30,8 @@ class LoginBloc extends BlocBase with LoginValidators {
     _streamSubscription =
         FirebaseAuth.instance.onAuthStateChanged.listen((user) async {
       if (user != null) {
+        print(user);
+
         if (await verifyPrivileges(user)) {
           _stateController.add(LoginState.SUCCESS);
         } else {
@@ -44,7 +46,6 @@ class LoginBloc extends BlocBase with LoginValidators {
 
   void submit() {
     final user = _userController.value + "@healthdiary.com.br";
-    print(user);
     final password = _passwordController.value;
     _stateController.add(LoginState.LOADING);
 
@@ -57,7 +58,7 @@ class LoginBloc extends BlocBase with LoginValidators {
 
   Future<bool> verifyPrivileges(FirebaseUser user) async {
     return await Firestore.instance
-        .collection("users")
+        .collection("nutricionista")
         .document(user.uid)
         .get()
         .then((doc) {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:healthdiary/blocs/login_bloc.dart';
-import 'package:healthdiary/pages/client/home_page_client.dart';
 import 'package:healthdiary/pages/admin/home_page_admin.dart';
 import 'package:healthdiary/widgets/input_field.dart';
 
@@ -71,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           Icon(
-                            Icons.free_breakfast,
+                            Icons.store_mall_directory,
                             color: Colors.pinkAccent,
                             size: 160,
                           ),
