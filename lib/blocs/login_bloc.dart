@@ -6,7 +6,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-enum LoginState { IDLE, LOADING, SUCCESS, FAIL }
+enum LoginState { IDLE, LOADING, SUCCESS, SUCCESS_CLIENT, FAIL }
 
 class LoginBloc extends BlocBase with LoginValidators {
   final _userController = BehaviorSubject<String>();
@@ -29,11 +29,14 @@ class LoginBloc extends BlocBase with LoginValidators {
   LoginBloc() {
     _streamSubscription =
         FirebaseAuth.instance.onAuthStateChanged.listen((user) async {
+//          user = null;
       if (user != null) {
-        print(user);
-
-        if (await verifyPrivileges(user)) {
+        bool isNutritionist = await verifyPrivileges((user));
+        print("é nutricionista? $isNutritionist");
+        if (isNutritionist) {
           _stateController.add(LoginState.SUCCESS);
+        } else if (!isNutritionist) {
+          _stateController.add(LoginState.SUCCESS_CLIENT);
         } else {
           FirebaseAuth.instance.signOut();
           _stateController.add(LoginState.FAIL);

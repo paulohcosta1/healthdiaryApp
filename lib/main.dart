@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Health Diary',
       theme: ThemeData(primaryColor: Colors.pinkAccent),
       debugShowCheckedModeBanner: false,
       home: LoginPage(),
