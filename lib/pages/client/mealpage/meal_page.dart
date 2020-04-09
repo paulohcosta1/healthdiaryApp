@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:healthdiary/blocs/meal_bloc.dart';
+import 'package:healthdiary/widgets/images_widget.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MealPage extends StatefulWidget {
@@ -11,7 +12,9 @@ class MealPage extends StatefulWidget {
 
 class _MealPageState extends State<MealPage> {
   File _file;
-  String dropdownValue = 'Selecione';
+  String dropdownValue = 'Café da manhã';
+  final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final _mealBloc = MealBloc();
 
@@ -31,76 +34,75 @@ class _MealPageState extends State<MealPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.save),
-            color: Colors.white,
-            onPressed: () => _onSave(),
-          ),
+          StreamBuilder<bool>(
+              stream: null,
+              builder: (context, snapshot) {
+                return IconButton(
+                  icon: Icon(Icons.save),
+                  color: Colors.white,
+                  onPressed: () => _onSave(),
+                );
+              }),
         ],
       ),
       body: _body(),
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.pinkAccent,
-          child: Icon(Icons.camera),
-          onPressed: () => _onClickCamera()),
     );
   }
 
   _body() {
-    return Padding(
-      padding: EdgeInsets.all(16),
-      child: Stack(
-        children: <Widget>[
-          Container(
-            child: _DropDown(),
+    return Stack(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Text(
+            "Selecione uma refeição",
+            style: TextStyle(color: Colors.grey, fontSize: 12),
           ),
-          Container(
-            child: Center(
-              child: _file != null ? Image.file(_file) : Text('oi'),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
+          child: Container(
+            child: _dropDown(),
+          ),
+        ),
+        Center(
+          child: Container(
+            child: ImagesWidget(
+              context: context,
+              initialValue: [],
+              onSaved: _mealBloc.saveImages,
             ),
-          )
-        ],
-      ),
+            width: 250,
+          ),
+        )
+      ],
     );
   }
 
-  void _onSave() {
-    print('salvando');
-  }
+  void _onSave() {}
 
-  Future<void> _onClickCamera() async {
-    var image = await ImagePicker.pickImage(
-      source: ImageSource.camera,
-      imageQuality: 75,
-    );
-
-    if (image != null) {
-      setState(() {
-        _file = image;
-      });
-    }
-  }
-
-  Widget _DropDown() {
+  Widget _dropDown() {
     return DropdownButton(
       value: dropdownValue,
       icon: Icon(Icons.arrow_downward),
       iconSize: 24,
+      hint: Text("Selecione um tipo de refeição"),
       isExpanded: true,
       elevation: 16,
-      style: TextStyle(color: Colors.deepPurple),
+      style: TextStyle(color: Colors.black),
       underline: Container(
         height: 2,
-        color: Colors.deepPurpleAccent,
+        color: Colors.pinkAccent,
       ),
       onChanged: (String newValue) {
         setState(() {
           dropdownValue = newValue;
         });
       },
-      items: <String>['Selecione', 'Café da manhã', 'Almoço', 'Lanche', 'Janta']
+      items: <String>['Café da manhã', 'Almoço', 'Lanche', 'Janta']
           .map<DropdownMenuItem<String>>(
         (String value) {
           return DropdownMenuItem<String>(

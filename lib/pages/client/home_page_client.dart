@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:healthdiary/pages/client/mealpage/meal_page.dart';
 
 class HomePageClient extends StatefulWidget {
@@ -37,13 +38,25 @@ class _HomePageClientState extends State<HomePageClient> {
   }
 
   _floatingActionButton() {
-    return FloatingActionButton(
+    return SpeedDial(
       child: Icon(Icons.add),
       backgroundColor: Colors.pinkAccent,
-      onPressed: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => MealPage()));
-      },
+      overlayOpacity: 0.4,
+      overlayColor: Colors.black,
+      children: [
+        SpeedDialChild(
+            child: Icon(
+              Icons.camera_alt,
+              color: Colors.pinkAccent,
+            ),
+            backgroundColor: Colors.white,
+            label: "Enviar foto do prato",
+            labelStyle: TextStyle(fontSize: 14),
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => MealPage()));
+            })
+      ],
     );
   }
 

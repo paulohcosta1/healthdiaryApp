@@ -17,11 +17,10 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
 
     _loginBloc.outState.listen((state) {
-      print(state);
       switch (state) {
         case LoginState.SUCCESS:
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => HomePageAdmin()));
+              MaterialPageRoute(builder: (context) => HomePageClient()));
           break;
         case LoginState.SUCCESS_CLIENT:
           Navigator.of(context).pushReplacement(

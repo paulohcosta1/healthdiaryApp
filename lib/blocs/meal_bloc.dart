@@ -7,16 +7,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MealBloc extends BlocBase {
-  final _imageController = BehaviorSubject<String>();
-  final _mealNameController = BehaviorSubject<String>();
+  final _dataControler = BehaviorSubject<Map>();
 
-  Stream<String> get outMealName => _mealNameController.stream;
+  Map unsavedData;
 
-  void _setMealName(String name) => _mealNameController.add(name);
+  Stream<Map> get outData => _dataControler.stream;
+
+  void saveImages(List images) {
+    unsavedData["images"] = images;
+  }
 
   @override
   void dispose() {
-    _imageController.close();
-    _mealNameController.close();
+    _dataControler.close();
   }
 }
