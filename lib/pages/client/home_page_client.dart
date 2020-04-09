@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:healthdiary/widgets/my_drawer.dart';
+import 'package:healthdiary/pages/client/mealpage/meal_page.dart';
 
 class HomePageClient extends StatefulWidget {
   @override
@@ -8,7 +8,7 @@ class HomePageClient extends StatefulWidget {
 
 class _HomePageClientState extends State<HomePageClient> {
   PageController _pageController;
-  int _page = 0;
+  int _page = 1;
 
   @override
   void initState() {
@@ -32,7 +32,18 @@ class _HomePageClientState extends State<HomePageClient> {
       backgroundColor: Colors.grey[850],
       bottomNavigationBar: _bottomNavigatorBar(),
       body: _body(),
-      drawer: MyDrawer(),
+      floatingActionButton: _floatingActionButton(),
+    );
+  }
+
+  _floatingActionButton() {
+    return FloatingActionButton(
+      child: Icon(Icons.add),
+      backgroundColor: Colors.pinkAccent,
+      onPressed: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => MealPage()));
+      },
     );
   }
 
