@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:healthdiary/blocs/meal_bloc.dart';
+import 'package:healthdiary/pages/client/home_page_client.dart';
 import 'package:healthdiary/validators/meal_validators.dart';
 import 'package:healthdiary/widgets/images_widget.dart';
 
@@ -42,9 +43,7 @@ class _MealPageState extends State<MealPage> with MealValidator {
                 return IconButton(
                   icon: Icon(Icons.save),
                   color: Colors.white,
-                  onPressed: () {
-                    _formKey.currentState.validate();
-                  },
+                  onPressed: _saveMeal,
                 );
               }),
         ],
@@ -86,7 +85,36 @@ class _MealPageState extends State<MealPage> with MealValidator {
     );
   }
 
-  void _onSave() {}
+  void _saveMeal() async {
+    if (_formKey.currentState.validate()) {
+      _mealBloc.saveTitle(dropdownValue);
+      _formKey.currentState.save();
+
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text(
+          "Salvando refeição...",
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(minutes: 1),
+        backgroundColor: Colors.pinkAccent,
+      ));
+
+      bool success = await _mealBloc.saveMeal();
+
+      _scaffoldKey.currentState.removeCurrentSnackBar();
+
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text(
+          success ? "Refeição salva!" : "Erro ao salvar a refeição!",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.pinkAccent,
+      ));
+
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => HomePageClient()));
+    }
+  }
 
   Widget _dropDown() {
     return DropdownButton(
