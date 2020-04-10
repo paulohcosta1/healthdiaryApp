@@ -17,12 +17,16 @@ class ImagesWidget extends FormField<List> {
                   Center(
                     child: Container(
                       height: 400,
-                      padding: EdgeInsets.only(top: 32, bottom: 8),
+                      padding: EdgeInsets.only(
+                        top: 32,
+                      ),
                       child: state.value.length > 0
                           ? Container(
                               height: 350,
                               width: 350,
-                              margin: EdgeInsets.only(right: 8),
+                              margin: EdgeInsets.only(
+                                right: 8,
+                              ),
                               child: GestureDetector(
                                 child: Image.file(
                                   state.value[0],
@@ -30,7 +34,8 @@ class ImagesWidget extends FormField<List> {
                                 ),
                                 onLongPress: () {
                                   state.didChange(
-                                      state.value..remove(state.value[0]));
+                                    state.value..remove(state.value[0]),
+                                  );
                                 },
                               ),
                             )
@@ -46,22 +51,29 @@ class ImagesWidget extends FormField<List> {
                               ),
                               onTap: () {
                                 showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) => ImageSourceSheet(
-                                          onImageSelected: (image) {
-                                            state.didChange(
-                                                state.value..add(image));
-                                            Navigator.of(context).pop();
-                                          },
-                                        ));
+                                  context: context,
+                                  builder: (context) => ImageSourceSheet(
+                                    onImageSelected: (image) {
+                                      state.didChange(
+                                        state.value..add(image),
+                                      );
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                );
                               },
                             ),
                     ),
                   ),
                   state.hasError
-                      ? Text(
-                          state.errorText,
-                          style: TextStyle(color: Colors.red, fontSize: 12),
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: Text(
+                              state.errorText,
+                              style: TextStyle(color: Colors.red, fontSize: 12),
+                            ),
+                          ),
                         )
                       : Container()
                 ],

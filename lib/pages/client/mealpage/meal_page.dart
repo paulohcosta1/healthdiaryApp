@@ -2,17 +2,18 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:healthdiary/blocs/meal_bloc.dart';
+import 'package:healthdiary/validators/meal_validators.dart';
 import 'package:healthdiary/widgets/images_widget.dart';
-import 'package:image_picker/image_picker.dart';
 
 class MealPage extends StatefulWidget {
   @override
   _MealPageState createState() => _MealPageState();
 }
 
-class _MealPageState extends State<MealPage> {
+class _MealPageState extends State<MealPage> with MealValidator {
   File _file;
   String dropdownValue = 'Café da manhã';
+
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -20,13 +21,11 @@ class _MealPageState extends State<MealPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _mealBloc.dispose();
     super.dispose();
   }
@@ -43,7 +42,9 @@ class _MealPageState extends State<MealPage> {
                 return IconButton(
                   icon: Icon(Icons.save),
                   color: Colors.white,
-                  onPressed: () => _onSave(),
+                  onPressed: () {
+                    _formKey.currentState.validate();
+                  },
                 );
               }),
         ],
@@ -55,29 +56,32 @@ class _MealPageState extends State<MealPage> {
   _body() {
     return Stack(
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Text(
-            "Selecione uma refeição",
-            style: TextStyle(color: Colors.grey, fontSize: 12),
+        Form(
+          key: _formKey,
+          child: ListView(
+            padding: EdgeInsets.all(16),
+            children: <Widget>[
+              Text(
+                "Selecione uma refeição",
+                style: TextStyle(color: Colors.grey, fontSize: 12),
+              ),
+              Container(
+                child: _dropDown(),
+              ),
+              Center(
+                child: Container(
+                  child: ImagesWidget(
+                    context: context,
+                    initialValue: [],
+                    onSaved: _mealBloc.saveImages,
+                    validator: validateImage,
+                  ),
+                  width: 250,
+                ),
+              ),
+            ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
-          child: Container(
-            child: _dropDown(),
-          ),
-        ),
-        Center(
-          child: Container(
-            child: ImagesWidget(
-              context: context,
-              initialValue: [],
-              onSaved: _mealBloc.saveImages,
-            ),
-            width: 250,
-          ),
-        )
       ],
     );
   }
