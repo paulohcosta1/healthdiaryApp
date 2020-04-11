@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:healthdiary/pages/client/mealpage/meal_page.dart';
+import 'package:healthdiary/pages/client/tabs/meals_tab.dart';
 
 class HomePageClient extends StatefulWidget {
   @override
@@ -61,24 +63,35 @@ class _HomePageClientState extends State<HomePageClient> {
   }
 
   _body() {
-    return PageView(
-      controller: _pageController,
-      onPageChanged: (p) {
-        setState(() {
-          _page = p;
-        });
+    return FutureBuilder(
+      future: FirebaseAuth.instance.currentUser(),
+      builder: (context, AsyncSnapshot<FirebaseUser> snapshot) {
+        if (snapshot.hasData) {
+          return PageView(
+            controller: _pageController,
+            onPageChanged: (p) {
+              setState(() {
+                _page = p;
+              });
+            },
+            children: <Widget>[
+              MealsTab(snapshot.data.uid),
+              Container(
+                color: Colors.yellow,
+              ),
+              Container(
+                color: Colors.green,
+              ),
+            ],
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(Colors.white),
+            ),
+          );
+        }
       },
-      children: <Widget>[
-        Container(
-          color: Colors.red,
-        ),
-        Container(
-          color: Colors.yellow,
-        ),
-        Container(
-          color: Colors.green,
-        )
-      ],
     );
   }
 

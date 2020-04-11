@@ -51,7 +51,6 @@ class MealBloc extends BlocBase {
   }
 
   Future _uploadImages(String uid) async {
-    print("aaaaaaaaaaaaaaa " + uid);
     StorageUploadTask uploadTask = FirebaseStorage.instance
         .ref()
         .child(uid)
