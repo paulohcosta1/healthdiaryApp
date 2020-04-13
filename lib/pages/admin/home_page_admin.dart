@@ -1,4 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:healthdiary/pages/admin/tabs/meals_tab_admin.dart';
+import 'package:healthdiary/pages/client/mealpage/meal_page.dart';
+import 'package:healthdiary/pages/client/tabs/meals_tab.dart';
 
 class HomePageAdmin extends StatefulWidget {
   @override
@@ -24,42 +29,19 @@ class _HomePageAdminState extends State<HomePageAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[850],
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-            canvasColor: Colors.pinkAccent,
-            primaryColor: Colors.white,
-            textTheme: Theme.of(context)
-                .textTheme
-                .copyWith(caption: TextStyle(color: Colors.white54))),
-        child: BottomNavigationBar(
-          currentIndex: _page,
-          onTap: (p) {
-            _pageController.animateToPage(
-              p,
-              duration: Duration(
-                milliseconds: 500,
-              ),
-              curve: Curves.ease,
-            );
-          },
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              title: Text("Dados"),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              title: Text("Início"),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.equalizer),
-              title: Text("Evoluções"),
-            ),
-          ],
-        ),
+      appBar: AppBar(
+        title: Text('Cliente'),
+        centerTitle: true,
       ),
-      body: PageView(
+      backgroundColor: Colors.grey[850],
+      bottomNavigationBar: _bottomNavigatorBar(),
+      body: _body(),
+    );
+  }
+
+  _body() {
+    return SafeArea(
+      child: PageView(
         controller: _pageController,
         onPageChanged: (p) {
           setState(() {
@@ -67,15 +49,49 @@ class _HomePageAdminState extends State<HomePageAdmin> {
           });
         },
         children: <Widget>[
-          Container(
-            color: Colors.red,
-          ),
+          MealsTabAdmin(),
           Container(
             color: Colors.yellow,
           ),
           Container(
             color: Colors.green,
-          )
+          ),
+        ],
+      ),
+    );
+  }
+
+  _bottomNavigatorBar() {
+    return Theme(
+      data: Theme.of(context).copyWith(
+        canvasColor: Colors.pinkAccent,
+        primaryColor: Colors.white,
+        textTheme: Theme.of(context).textTheme.copyWith(
+              caption: TextStyle(color: Colors.white54),
+            ),
+      ),
+      child: BottomNavigationBar(
+        currentIndex: _page,
+        onTap: (p) {
+          _pageController.animateToPage(p,
+              duration: Duration(
+                milliseconds: 500,
+              ),
+              curve: Curves.ease);
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            title: Text("Clientes"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text("Início"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.equalizer),
+            title: Text("Evoluções"),
+          ),
         ],
       ),
     );

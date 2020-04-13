@@ -2,26 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healthdiary/widgets/meal_tile.dart';
+import 'package:healthdiary/widgets/meal_tile_admin.dart';
 
-class MealsTab extends StatefulWidget {
-  final String uid;
-
-  MealsTab(this.uid);
-
+class MealsTabAdmin extends StatefulWidget {
   @override
-  _MealsTabState createState() => _MealsTabState();
+  _MealsTabAdminState createState() => _MealsTabAdminState();
 }
 
-class _MealsTabState extends State<MealsTab>
+class _MealsTabAdminState extends State<MealsTabAdmin>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance
-            .collection("meals")
-            .where("uid == " + widget.uid)
-            .snapshots(),
+        stream: Firestore.instance.collection("meals").snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return Center(
@@ -32,7 +26,8 @@ class _MealsTabState extends State<MealsTab>
           return ListView.builder(
             itemCount: snapshot.data.documents.length,
             itemBuilder: (context, index) {
-              return MealTile(snapshot.data.documents[index]);
+              print(snapshot.data.documents[index]);
+              return MealTileAdmin(snapshot.data.documents[index]);
             },
           );
         });

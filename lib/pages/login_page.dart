@@ -20,11 +20,11 @@ class _LoginPageState extends State<LoginPage> {
       switch (state) {
         case LoginState.SUCCESS:
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => HomePageClient()));
+              MaterialPageRoute(builder: (context) => HomePageAdmin()));
           break;
         case LoginState.SUCCESS_CLIENT:
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => HomePageClient()));
+              MaterialPageRoute(builder: (context) => HomePageAdmin()));
           break;
         case LoginState.FAIL:
           showDialog(

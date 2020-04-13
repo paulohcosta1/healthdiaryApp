@@ -33,10 +33,9 @@ class MealBloc extends BlocBase {
     try {
       final FirebaseUser user = await FirebaseAuth.instance.currentUser();
       final String uid = user.uid.toString();
+      unsavedData['uid'] = uid;
 
       DocumentReference dr = await Firestore.instance
-          .collection("clientes")
-          .document(uid)
           .collection("meals")
           .add(Map.from(unsavedData)..remove("images"));
       await _uploadImages(uid);
