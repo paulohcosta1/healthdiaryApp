@@ -10,7 +10,8 @@ class HomePageClient extends StatefulWidget {
   _HomePageClientState createState() => _HomePageClientState();
 }
 
-class _HomePageClientState extends State<HomePageClient> {
+class _HomePageClientState extends State<HomePageClient>
+    with AutomaticKeepAliveClientMixin {
   PageController _pageController;
   int _page = 1;
 
@@ -141,4 +142,7 @@ class _HomePageClientState extends State<HomePageClient> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -14,6 +14,7 @@ class MealBloc extends BlocBase {
   Map<String, dynamic> unsavedData = {
     "title": null,
     "images": [],
+    "type": null,
   };
 
   Stream<Map> get outData => _dataControler.stream;
@@ -25,6 +26,10 @@ class MealBloc extends BlocBase {
 
   void saveTitle(String title) {
     unsavedData["title"] = title;
+  }
+
+  void saveType(String type) {
+    unsavedData["type"] = type;
   }
 
   Future<bool> saveMeal() async {

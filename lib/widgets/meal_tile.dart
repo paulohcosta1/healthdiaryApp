@@ -25,7 +25,7 @@ class MealTile extends StatelessWidget {
           ),
         ),
         title: Text(
-          meal.data['title'],
+          meal.data['type'],
           style:
               TextStyle(color: Colors.grey[850], fontWeight: FontWeight.w500),
         ),

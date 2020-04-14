@@ -8,7 +8,8 @@ class HomePageAdmin extends StatefulWidget {
   _HomePageAdminState createState() => _HomePageAdminState();
 }
 
-class _HomePageAdminState extends State<HomePageAdmin> {
+class _HomePageAdminState extends State<HomePageAdmin>
+    with AutomaticKeepAliveClientMixin {
   PageController _pageController;
   int _page = 1;
 
@@ -107,4 +108,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

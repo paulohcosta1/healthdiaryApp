@@ -20,7 +20,7 @@ class _MealsTabState extends State<MealsTab>
     return StreamBuilder<QuerySnapshot>(
         stream: Firestore.instance
             .collection("meals")
-            .where("uid == " + widget.uid)
+            .where("uid", isEqualTo: widget.uid)
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
@@ -36,13 +36,6 @@ class _MealsTabState extends State<MealsTab>
             },
           );
         });
-  }
-
-  Future<String> getUser() async {
-    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    final uid = user.uid;
-    return uid;
-    // here you write the codes to input the data into firestore
   }
 
   @override

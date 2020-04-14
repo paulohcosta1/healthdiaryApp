@@ -33,7 +33,6 @@ class LoginBloc extends BlocBase with LoginValidators {
       // user = null;
       if (user != null) {
         bool isNutritionist = await verifyPrivileges((user));
-        print("é nutricionista? $isNutritionist");
         if (isNutritionist) {
           _stateController.add(LoginState.SUCCESS);
         } else if (!isNutritionist) {

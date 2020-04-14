@@ -23,21 +23,16 @@ class _MealsTabAdminState extends State<MealsTabAdmin>
                 valueColor: AlwaysStoppedAnimation(Colors.white),
               ),
             );
-          return ListView.builder(
+          return ListView.separated(
+            padding: const EdgeInsets.all(8),
             itemCount: snapshot.data.documents.length,
             itemBuilder: (context, index) {
-              print(snapshot.data.documents[index]);
               return MealTileAdmin(snapshot.data.documents[index]);
             },
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(),
           );
         });
-  }
-
-  Future<String> getUser() async {
-    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    final uid = user.uid;
-    return uid;
-    // here you write the codes to input the data into firestore
   }
 
   @override

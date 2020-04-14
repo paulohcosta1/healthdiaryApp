@@ -53,41 +53,61 @@ class _MealPageState extends State<MealPage> with MealValidator {
   }
 
   _body() {
-    return Stack(
-      children: <Widget>[
-        Form(
-          key: _formKey,
-          child: ListView(
-            padding: EdgeInsets.all(16),
-            children: <Widget>[
-              Text(
-                "Selecione uma refeição",
-                style: TextStyle(color: Colors.grey, fontSize: 12),
-              ),
-              Container(
-                child: _dropDown(),
-              ),
-              Center(
-                child: Container(
-                  child: ImagesWidget(
-                    context: context,
-                    initialValue: [],
-                    onSaved: _mealBloc.saveImages,
-                    validator: validateImage,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(new FocusNode());
+      },
+      child: Stack(
+        children: <Widget>[
+          Form(
+            key: _formKey,
+            child: ListView(
+              padding: EdgeInsets.all(16),
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(bottom: 20),
+                  child: TextFormField(
+                    validator: validateTitle,
+                    onSaved: _mealBloc.saveTitle,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                    ),
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.only(bottom: 5),
+                      labelText: 'Adicione um título',
+                    ),
                   ),
-                  width: 250,
                 ),
-              ),
-            ],
+                Text(
+                  "Selecione uma refeição",
+                  style: TextStyle(color: Colors.grey, fontSize: 12),
+                ),
+                Container(
+                  child: _dropDown(),
+                ),
+                Center(
+                  child: Container(
+                    child: ImagesWidget(
+                      context: context,
+                      initialValue: [],
+                      onSaved: _mealBloc.saveImages,
+                      validator: validateImage,
+                    ),
+                    width: 250,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   void _saveMeal() async {
     if (_formKey.currentState.validate()) {
-      _mealBloc.saveTitle(dropdownValue);
+      _mealBloc.saveType(dropdownValue);
       _formKey.currentState.save();
 
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -126,8 +146,8 @@ class _MealPageState extends State<MealPage> with MealValidator {
       elevation: 16,
       style: TextStyle(color: Colors.black),
       underline: Container(
-        height: 2,
-        color: Colors.pinkAccent,
+        height: 1,
+        color: Colors.grey,
       ),
       onChanged: (String newValue) {
         setState(() {
