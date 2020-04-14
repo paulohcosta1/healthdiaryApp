@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:healthdiary/pages/client/mealpage/meal_page.dart';
 import 'package:healthdiary/pages/client/tabs/meals_tab.dart';
+import 'package:healthdiary/pages/login_page.dart';
 
 class HomePageClient extends StatefulWidget {
   @override
@@ -30,6 +31,16 @@ class _HomePageClientState extends State<HomePageClient> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Cliente'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => LoginPage()));
+            },
+          )
+        ],
         centerTitle: true,
       ),
       backgroundColor: Colors.grey[850],

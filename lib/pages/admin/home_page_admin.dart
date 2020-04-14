@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:healthdiary/pages/admin/tabs/meals_tab_admin.dart';
-import 'package:healthdiary/pages/client/mealpage/meal_page.dart';
-import 'package:healthdiary/pages/client/tabs/meals_tab.dart';
+import 'package:healthdiary/pages/login_page.dart';
 
 class HomePageAdmin extends StatefulWidget {
   @override
@@ -30,8 +28,21 @@ class _HomePageAdminState extends State<HomePageAdmin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cliente'),
+        title: Text('Nutricionista'),
         centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => LoginPage(),
+                ),
+              );
+            },
+          )
+        ],
       ),
       backgroundColor: Colors.grey[850],
       bottomNavigationBar: _bottomNavigatorBar(),
