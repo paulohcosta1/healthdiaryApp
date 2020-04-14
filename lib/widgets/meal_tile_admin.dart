@@ -65,6 +65,20 @@ class MealTileAdmin extends StatelessWidget {
                             Image.network(
                               meal.data["images"][0],
                               width: 200,
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                }
+
+                                return CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes
+                                      : null,
+                                );
+                              },
                             ),
                           ],
                         ),
@@ -82,7 +96,8 @@ class MealTileAdmin extends StatelessWidget {
                                     onPressed: () {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
-                                          builder: (context) => CommentPage(),
+                                          builder: (context) =>
+                                              CommentPage(this.meal.documentID),
                                         ),
                                       );
                                     },

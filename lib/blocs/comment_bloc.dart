@@ -5,20 +5,31 @@ import 'package:rxdart/rxdart.dart';
 
 class CommentBloc extends BlocBase {
   final _commentController = BehaviorSubject<String>();
-  String comment = "";
+
+  Stream<String> get outComment => _commentController.stream;
 
   void saveComment(String value) {
-    comment = value;
-    print(comment);
+    _commentController.add(value);
   }
 
-  Future<bool> sendComment() async {
+  Future<bool> sendComment(String mealId) async {
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    final String uid = user.uid.toString();
+
+    final String userUid = user.uid.toString();
+
+    await Firestore.instance
+        .collection('meals')
+        .document(mealId)
+        .collection('comments')
+        .document()
+        .setData({
+      'userUid': userUid,
+      'comment': _commentController.value,
+    });
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    _commentController.close();
   }
 }
