@@ -1,10 +1,8 @@
-class CommentTile extends StatelessWidget {
-  const CommentTile({Key key}) : super(key: key);
+import 'package:flutter/material.dart';
 
+class CommentTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: child,
-    );
+    return Container();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:healthdiary/pages/comments_page.dart';
 
 import 'detail_screen.dart';
 
@@ -37,6 +38,14 @@ class MealTile extends StatelessWidget {
                   children: <Widget>[
                     IconButton(
                       icon: Icon(Icons.comment),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                CommentPage(this.meal.documentID),
+                          ),
+                        );
+                      },
                     ),
                     IconButton(
                       icon: Icon(Icons.share),
