@@ -30,38 +30,70 @@ class _CommentPageState extends State<CommentPage> with CommentValidator {
   }
 
   _body() {
-    print(widget._mealId);
-    return StreamBuilder<String>(
-        stream: _commentBloc.outComment,
-        builder: (context, snapshot) {
-          return Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: Form(
-              key: _formKey,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: TextFormField(
-                      validator: validateComment,
-                      decoration: InputDecoration.collapsed(
-                        hintText: "Enviar um comentário",
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: StreamBuilder<QuerySnapshot>(
+            stream: Firestore.instance
+                .collection('meals')
+                .document(widget._mealId)
+                .collection("comments")
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<DocumentSnapshot> documents = snapshot.data.documents;
+                return ListView.builder(
+                  itemCount: documents.length,
+                  reverse: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      title: Text(documents[index].data['comment']),
+                    );
+                  },
+                );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
+        ),
+        StreamBuilder<String>(
+            stream: _commentBloc.outComment,
+            builder: (context, snapshot) {
+              return Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: Form(
+                  key: _formKey,
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: TextFormField(
+                          validator: validateComment,
+                          decoration: InputDecoration.collapsed(
+                            hintText: "Enviar um comentário",
+                          ),
+                          onChanged: _commentBloc.saveComment,
+                        ),
                       ),
-                      onChanged: _commentBloc.saveComment,
-                    ),
+                      IconButton(
+                        icon: Icon(Icons.send),
+                        onPressed: _sendComment,
+                      ),
+                    ],
                   ),
-                  IconButton(
-                    icon: Icon(Icons.send),
-                    onPressed: _sendComment,
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
+                ),
+              );
+            }),
+      ],
+    );
   }
 
   void _sendComment() async {
     if (_formKey.currentState.validate()) {
+      _formKey.currentState.reset();
+
       _formKey.currentState.save();
 
       bool success = await _commentBloc.sendComment(widget._mealId);
