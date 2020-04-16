@@ -16,6 +16,7 @@ class _MealsTabState extends State<MealsTab>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    print(widget.uid);
     super.build(context);
     return StreamBuilder<QuerySnapshot>(
         stream: Firestore.instance

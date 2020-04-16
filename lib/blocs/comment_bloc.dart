@@ -19,19 +19,11 @@ class CommentBloc extends BlocBase {
     String userName;
 
     QuerySnapshot getUserName = await Firestore.instance
-        .collection('clientes')
+        .collection('users')
         .where('uid', isEqualTo: userUid)
         .getDocuments();
-    if (getUserName.documents.length != 0) {
-      userName = getUserName.documents[0].data['nome'];
-    } else {
-      QuerySnapshot getUserName = await Firestore.instance
-          .collection('nutricionista')
-          .where('uid', isEqualTo: userUid)
-          .getDocuments();
 
-      userName = getUserName.documents[0].data['nome'];
-    }
+    userName = getUserName.documents[0].data['nome'];
 
     await Firestore.instance
         .collection('meals')

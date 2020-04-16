@@ -11,12 +11,13 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _loginBloc = LoginBloc();
-
   @override
   void initState() {
     super.initState();
 
     _loginBloc.outState.listen((state) {
+      print(state);
+
       switch (state) {
         case LoginState.SUCCESS:
           Navigator.of(context).pushReplacement(

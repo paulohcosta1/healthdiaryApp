@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:healthdiary/models/user.dart';
 import 'package:healthdiary/validators/login_validators.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,7 +13,6 @@ class LoginBloc extends BlocBase with LoginValidators {
   final _userController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
   final _stateController = BehaviorSubject<LoginState>();
-
   Stream<String> get outUser => _userController.stream.transform(validateUser);
   Stream<String> get outPassword =>
       _passwordController.stream.transform(validatePassword);
@@ -32,10 +32,10 @@ class LoginBloc extends BlocBase with LoginValidators {
         FirebaseAuth.instance.onAuthStateChanged.listen((user) async {
       // user = null;
       if (user != null) {
-        bool isNutritionist = await verifyPrivileges((user));
-        if (isNutritionist) {
+        Map userMap = await verifyPrivileges((user));
+        if (userMap['role'] == 'admin') {
           _stateController.add(LoginState.SUCCESS);
-        } else if (!isNutritionist) {
+        } else if (userMap['role'] == 'client') {
           _stateController.add(LoginState.SUCCESS_CLIENT);
         } else {
           FirebaseAuth.instance.signOut();
@@ -51,7 +51,6 @@ class LoginBloc extends BlocBase with LoginValidators {
     final user = _userController.value + "@healthdiary.com.br";
     final password = _passwordController.value;
     _stateController.add(LoginState.LOADING);
-
     FirebaseAuth.instance
         .signInWithEmailAndPassword(email: user, password: password)
         .catchError((e) {
@@ -59,16 +58,16 @@ class LoginBloc extends BlocBase with LoginValidators {
     });
   }
 
-  Future<bool> verifyPrivileges(FirebaseUser user) async {
+  Future<Map> verifyPrivileges(FirebaseUser user) async {
     return await Firestore.instance
-        .collection("nutricionista")
+        .collection("users")
         .document(user.uid)
         .get()
         .then((doc) {
       if (doc.data != null) {
-        return true;
-      } else {
-        return false;
+        print(doc.data);
+        User _usuario = User.fromJson(doc.data);
+        return _usuario.toJson();
       }
     }).catchError((e) {
       return false;

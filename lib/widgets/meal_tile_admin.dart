@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:healthdiary/models/user.dart';
 import 'package:healthdiary/pages/comments_page.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -12,14 +13,15 @@ class MealTileAdmin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
+    print(meal.data['uid']);
+    return StreamBuilder<DocumentSnapshot>(
         stream: Firestore.instance
-            .collection("clientes")
-            .where("uid", isEqualTo: meal.data['uid'])
+            .collection("users")
+            .document(meal.data['uid'])
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data.documents.isNotEmpty) {
+            if (snapshot.data['nome'] != null) {
               return Container(
                 margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                 child: Card(
@@ -29,7 +31,7 @@ class MealTileAdmin extends StatelessWidget {
                         subtitle: Text(meal.data['type'] +
                             ' - ' +
                             "por " +
-                            snapshot.data.documents[0].data['nome']),
+                            snapshot.data['nome']),
                         leading: GestureDetector(
                           onTap: () {
                             Navigator.push(context,
