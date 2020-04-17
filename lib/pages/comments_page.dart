@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:healthdiary/blocs/comment_bloc.dart';
 import 'package:healthdiary/validators/comment_validators.dart';
+import 'package:healthdiary/widgets/comment_tile.dart';
 
 class CommentPage extends StatefulWidget {
   String _mealId;
@@ -38,16 +39,18 @@ class _CommentPageState extends State<CommentPage> with CommentValidator {
                 .collection('meals')
                 .document(widget._mealId)
                 .collection("comments")
+                .orderBy('time')
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                List<DocumentSnapshot> documents = snapshot.data.documents;
+                List<DocumentSnapshot> documents =
+                    snapshot.data.documents.reversed.toList();
                 return ListView.builder(
                   itemCount: documents.length,
                   reverse: true,
                   itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      title: Text(documents[index].data['comment']),
+                    return CommentTile(
+                      documents[index].data,
                     );
                   },
                 );

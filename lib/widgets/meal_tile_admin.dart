@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:healthdiary/blocs/meal_bloc.dart';
 import 'package:healthdiary/models/user.dart';
 import 'package:healthdiary/pages/comments_page.dart';
 import 'package:shimmer/shimmer.dart';
@@ -13,7 +14,7 @@ class MealTileAdmin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(meal.data['uid']);
+    final _mealBloc = MealBloc();
     return StreamBuilder<DocumentSnapshot>(
         stream: Firestore.instance
             .collection("users")
@@ -114,7 +115,9 @@ class MealTileAdmin extends StatelessWidget {
                               children: <Widget>[
                                 Container(
                                   child: RatingBar(
-                                    initialRating: 1,
+                                    initialRating: meal.data['rating'] != null
+                                        ? meal.data['rating']
+                                        : 1,
                                     direction: Axis.horizontal,
                                     allowHalfRating: false,
                                     glowColor: Colors.red,
@@ -122,20 +125,20 @@ class MealTileAdmin extends StatelessWidget {
                                     itemSize: 20,
                                     unratedColor: Colors.red,
                                     ratingWidget: RatingWidget(
-                                      full: Image.asset(
-                                        'assets/images/heart.png',
-                                      ),
-                                      half: Image.asset(
-                                        'assets/images/heart_half.png',
-                                      ),
-                                      empty: Image.asset(
-                                        'assets/images/heart_border.png',
-                                      ),
-                                    ),
+                                        full: Icon(
+                                          Icons.star,
+                                          color: Colors.yellow,
+                                        ),
+                                        empty: Icon(
+                                          Icons.star_border,
+                                          color: Colors.grey.shade400,
+                                        ),
+                                        half: null),
                                     itemPadding:
                                         EdgeInsets.symmetric(horizontal: 4.0),
                                     onRatingUpdate: (rating) {
-                                      print(rating);
+                                      _mealBloc.saveRate(
+                                          rating, this.meal.documentID);
                                     },
                                   ),
                                 ),

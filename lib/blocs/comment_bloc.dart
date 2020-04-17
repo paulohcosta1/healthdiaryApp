@@ -33,6 +33,7 @@ class CommentBloc extends BlocBase {
         .setData({
       'userName': userName,
       'comment': _commentController.value,
+      'time': Timestamp.now(),
     });
   }
 

@@ -14,7 +14,6 @@ class _HomePageClientState extends State<HomePageClient>
     with AutomaticKeepAliveClientMixin {
   PageController _pageController;
   int _page = 1;
-
   @override
   void initState() {
     super.initState();
@@ -29,6 +28,8 @@ class _HomePageClientState extends State<HomePageClient>
 
   @override
   Widget build(BuildContext context) {
+    print('filhodaputa');
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Cliente'),

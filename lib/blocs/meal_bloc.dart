@@ -67,6 +67,16 @@ class MealBloc extends BlocBase {
     unsavedData["images"][0] = downloadUrl;
   }
 
+  Future<void> saveRate(double rating, String documentId) async {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['rating'] = rating;
+
+    DocumentReference dr =
+        await Firestore.instance.collection("meals").document(documentId);
+
+    dr.updateData(data);
+  }
+
   @override
   void dispose() {
     _dataControler.close();

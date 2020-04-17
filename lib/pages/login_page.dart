@@ -16,16 +16,18 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
 
     _loginBloc.outState.listen((state) {
-      print(state);
-
       switch (state) {
         case LoginState.SUCCESS:
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => HomePageAdmin()));
-          break;
-        case LoginState.SUCCESS_CLIENT:
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => HomePageClient()));
+          _loginBloc.outUserData.listen((user) {
+            if (user['role'] == 'admin') {
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => HomePageAdmin()));
+            } else {
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => HomePageClient()));
+            }
+          });
+
           break;
         case LoginState.FAIL:
           showDialog(
@@ -73,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         Icon(
-                          Icons.store_mall_directory,
+                          Icons.free_breakfast,
                           color: Colors.pinkAccent,
                           size: 160,
                         ),
@@ -121,3 +123,5 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
+class User {}

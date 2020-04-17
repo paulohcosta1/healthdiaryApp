@@ -10,6 +10,8 @@ class MealTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var stars = meal['rating'] != null ? meal['rating'] : 0;
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Card(
@@ -55,9 +57,12 @@ class MealTile extends StatelessWidget {
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: List.generate(5, (index) {
-                    return Icon(
-                      index < 0 ? Icons.star : Icons.star_border,
-                    );
+                    return index < stars
+                        ? Icon(
+                            Icons.star,
+                            color: Colors.yellow,
+                          )
+                        : Icon(Icons.star_border, color: Colors.grey.shade400);
                   }),
                 )),
           )
