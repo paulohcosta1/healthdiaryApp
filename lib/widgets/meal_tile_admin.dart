@@ -138,7 +138,9 @@ class MealTileAdmin extends StatelessWidget {
                                         EdgeInsets.symmetric(horizontal: 4.0),
                                     onRatingUpdate: (rating) {
                                       _mealBloc.saveRate(
-                                          rating, this.meal.documentID);
+                                          rating,
+                                          this.meal.documentID,
+                                          snapshot.data['onesinal_id']);
                                     },
                                   ),
                                 ),

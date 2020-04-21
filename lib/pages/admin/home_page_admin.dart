@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healthdiary/pages/admin/tabs/meals_tab_admin.dart';
 import 'package:healthdiary/pages/login_page.dart';
+import 'package:healthdiary/utils/onesignal_notifications.dart';
 
 class HomePageAdmin extends StatefulWidget {
   @override
@@ -11,11 +12,16 @@ class HomePageAdmin extends StatefulWidget {
 class _HomePageAdminState extends State<HomePageAdmin>
     with AutomaticKeepAliveClientMixin {
   PageController _pageController;
+  OnesignalNotifications _oneSinal;
   int _page = 1;
-
   @override
   void initState() {
     super.initState();
+
+    _oneSinal = OnesignalNotifications();
+
+    _oneSinal.initOneSignal();
+
     _pageController = PageController();
   }
 
@@ -24,6 +30,8 @@ class _HomePageAdminState extends State<HomePageAdmin>
     _pageController.dispose();
     super.dispose();
   }
+
+//   var teste = OnesignalNotifications();
 
   @override
   Widget build(BuildContext context) {
