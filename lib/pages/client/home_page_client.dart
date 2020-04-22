@@ -4,6 +4,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:healthdiary/pages/client/mealpage/meal_page.dart';
 import 'package:healthdiary/pages/client/tabs/meals_tab.dart';
 import 'package:healthdiary/pages/login_page.dart';
+import 'package:healthdiary/utils/onesignal_notifications.dart';
 
 class HomePageClient extends StatefulWidget {
   @override
@@ -17,6 +18,8 @@ class _HomePageClientState extends State<HomePageClient>
   @override
   void initState() {
     super.initState();
+    initOneSignal();
+
     _pageController = PageController();
   }
 
@@ -28,8 +31,6 @@ class _HomePageClientState extends State<HomePageClient>
 
   @override
   Widget build(BuildContext context) {
-    print('filhodaputa');
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Cliente'),

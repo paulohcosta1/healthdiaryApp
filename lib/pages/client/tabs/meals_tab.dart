@@ -33,7 +33,9 @@ class _MealsTabState extends State<MealsTab>
           return ListView.builder(
             itemCount: snapshot.data.documents.length,
             itemBuilder: (context, index) {
-              return MealTile(snapshot.data.documents[index]);
+              if (snapshot.data.documents[index] != null) {
+                return MealTile(snapshot.data.documents[index]);
+              }
             },
           );
         });

@@ -3,10 +3,10 @@ import 'dart:convert';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:healthdiary/utils/onesignal_notifications.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:http/http.dart' as http;
 
 class MealBloc extends BlocBase {
   final _dataControler = BehaviorSubject<Map>();
@@ -35,6 +35,8 @@ class MealBloc extends BlocBase {
 
   Future<bool> saveMeal() async {
     _loadingController.add(true);
+
+    sendNotificationAdmin("meal");
 
     try {
       final FirebaseUser user = await FirebaseAuth.instance.currentUser();
@@ -68,28 +70,11 @@ class MealBloc extends BlocBase {
     unsavedData["images"][0] = downloadUrl;
   }
 
-  Future<void> saveRate(
-      double rating, String documentId, String onesinal) async {
+  Future<void> saveRate(double rating, String documentId, String userId) async {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['rating'] = rating;
 
-    var includeIds = ["2e6a4feb-e231-47db-8a7e-c7c365d5154f"];
-    var headings = {"en": "teste"};
-    var contents = {"en": 'bucetao'};
-
-    Map body = {
-      'app_id': "f62b4eb9-c4e2-42de-8e00-22fdf8bc3316",
-      "include_player_ids": includeIds,
-      'headings': headings,
-      'contents': contents
-    };
-    var testeJson = jsonEncode(body);
-
-    var teste = http.post("https://onesignal.com/api/v1/notifications",
-        body: testeJson,
-        headers: {
-          "Content-Type": "application/json",
-        });
+    sendNotification("rating", userId);
 
     DocumentReference dr =
         await Firestore.instance.collection("meals").document(documentId);

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:healthdiary/pages/comments_page.dart';
@@ -11,7 +12,6 @@ class MealTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var stars = meal['rating'] != null ? meal['rating'] : 0;
-
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Card(
@@ -23,7 +23,7 @@ class MealTile extends StatelessWidget {
             }));
           },
           child: CircleAvatar(
-            backgroundImage: NetworkImage(meal.data["images"][0]),
+            backgroundImage: CachedNetworkImageProvider(meal.data["images"][0]),
             backgroundColor: Colors.white,
           ),
         ),

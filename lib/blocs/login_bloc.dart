@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:healthdiary/models/user.dart';
 import 'package:healthdiary/validators/login_validators.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,7 +20,7 @@ class LoginBloc extends BlocBase with LoginValidators {
   Stream<Map> get outUserData => _userDataController.stream;
 
   Stream<bool> get outSubmitValid =>
-      Observable.combineLatest2(outUser, outPassword, (a, b) => true);
+      Rx.combineLatest2(outUser, outPassword, (a, b) => true);
 
   Function(String) get changeUser => _loginController.sink.add;
   Function(String) get changePassword => _passwordController.sink.add;

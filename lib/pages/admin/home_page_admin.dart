@@ -12,16 +12,11 @@ class HomePageAdmin extends StatefulWidget {
 class _HomePageAdminState extends State<HomePageAdmin>
     with AutomaticKeepAliveClientMixin {
   PageController _pageController;
-  OnesignalNotifications _oneSinal;
   int _page = 1;
   @override
   void initState() {
     super.initState();
-
-    _oneSinal = OnesignalNotifications();
-
-    _oneSinal.initOneSignal();
-
+    initOneSignal();
     _pageController = PageController();
   }
 

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:healthdiary/pages/login_page.dart';
 import 'package:healthdiary/utils/onesignal_notifications.dart';
 
-void main() => runApp(MyApp());
+Future main() async {
+  await DotEnv().load('assets/.env');
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
